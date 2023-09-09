@@ -29,6 +29,7 @@ export const TextForm = (props) => {
   };
   const handleCopy = () => {
     navigator.clipboard.writeText(text);
+    document.getSelection().removeAllRanges();
     props.showAlert("Copied to Clipboard!", "success");
   };
   const handleExtraSpaces = () => {
@@ -54,18 +55,24 @@ export const TextForm = (props) => {
             rows="8"
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleUpClick}>
+        <button className="btn btn-primary mx-2 my-1" onClick={handleUpClick}>
           Convert to UpperCase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleLowerCase}>
+        <button className="btn btn-primary mx-2 my-1" onClick={handleLowerCase}>
           {" "}
           Convert to LowerCase{" "}
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleClearClick}>
+        <button
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleClearClick}
+        >
           {" "}
           Clear Text{" "}
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleReverseText}>
+        <button
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleReverseText}
+        >
           Reverse
         </button>
         <button
@@ -86,9 +93,20 @@ export const TextForm = (props) => {
       <div className="container my-2">
         <h1>your text summary</h1>
         <p>
-          {text.split("").length}word and {text.length} Character
+          {
+            text.split(/\s+/).filter((element) => {
+              return element.length !== 0;
+            }).length
+          }{" "}
+          words and {text.length} characters
         </p>
-        <p>{0.008 * text.split("").length}Minutes to read</p>
+        <p>
+          {0.008 *
+            text.split(/\s+/).filter((element) => {
+              return element.length !== 0;
+            }).length}{" "}
+          Minutes read
+        </p>
         <h2>Preview</h2>
         <p>{text.length > 0 ? text : "Nothing to preview!"}</p>
       </div>
